@@ -8,28 +8,91 @@ Modul 3 Komunitas Game Dev TC 2020
 4. Peserta dapat membuat kontrol platformer sederhana
 
 ## Sprite Renderer dan Sprite
-```Sprite``` adalah gambar yang digunakan sebagai visual sebuah game. ```SpriteRenderer``` adalah cara unity menggambarkan ```sprite``` tersebut ke dalam game. Dengan ```sprite``` renderer kita dapat dengan mudah menggambar, gambar dalam game. ```SpriteRenderer``` digunakan untuk object yang ada di game world, bukan ui game.
-
-![thread](img/2D_SpriteRenderer_1.png)
-
-Pada component ```SpriteRenderer```, kita dapat merubah bagaimana unity men-*render* ```sprite``` tersebut. Untuk sementara, kita hanya peduli dengan apa yang digambar oleh SpriteRenderer. Untuk menggambar sebuah ```sprite```, kita dapat men-*drag and drop* ```sprite``` gambar yang kita ingin gambar ke dalam kolom ```sprite```.
-
-![thread](img/2D_SpriteRenderer_2.png)
+https://docs.unity3d.com/Manual/Sprites.html
+https://docs.unity3d.com/Manual/class-SpriteRenderer.html
 
 ## Collider2D
-Dalam game, terkadang kita membutuhkan beberapa object untuk bertabrakan dengan object lainnya. Untuk deteksi tersebut, kita membutuhkan collider. ```Collider``` dalam unity ada 2, yaitu ```Collider3D``` dan ```Collider2D```. ```Collider3D``` tidak dapat berinteraksi dengan ```Collider2D```, dan begitu juga sebaliknya. Untuk game 2D kita akan menggunakan ```Collider2D```.
-
-```Collider2D``` dalam unity ada beberapa macam :
-1. ```CircleCollider2D```
-2. ```BoxCollider2D```
-3. ```PolygonCollider2D```
-4. ```EdgeCollider2D```
-5. ```CapsuleCollider2D```
-6. ```CompositeCollider2D```
-
-Collider - collider yang tersebut tentu mempunyai bentuk yang berbeda. Gunakan sesuai bentuk sprite.
-
-**Note : Polygon Collider, Edge Collider dan Composite Collider membutuhkan processing power lebih besar daripada primitive shaped collider**
+https://docs.unity3d.com/Manual/Collider2D.html
 
 ## Rigidbody2D
-Rigidbody2D adalah cara agar game object dapat dikontrol oleh physiscs engine unity.
+https://docs.unity3d.com/Manual/class-Rigidbody2D.html
+
+## Membuat platform Game
+
+1. Download folder sprites dalam github ini.
+![img](sprites/player.png)
+![img](sprites/player_leg.png)
+![img](sprites/tilemap.png)
+
+Sprite - sprite tersebut akan menjadi asset graphic dalam game ini.
+
+2. Setelah mendownload folder sprite, silahkan membuat project dengan setting 2D dan ubah nama project menjadi nama game (disini akan dinamai "platformer game").
+
+![img](img/project_setup.png)
+
+3. Masukkan folder sprite tersebut dalam projectnya, untuk mendapatkan direktory project dengan mudah. Dapat klik kanan dalam tab project lalu pilih Show in explorer.
+
+![img](img/project_dir_show.png)
+
+4. Karena game kita adalah game, pixel art, maka kita perlu setting gambarnya agar tidak ada anti-aliasing. Lalu karena semua gambar tersebut adalah sprite-sheet, maka kita harus memisahkannya menjadi individual sprite.
+Klik gambar pada folder, maka inspector akan menunjukkan informasi berikut.
+
+![img](img/sprite_inspector.png)
+
+Ubah sprite mode menjadi multiple, dan pixel per unit menjadi 32. filter mode menjadi point, dan ubah format compression menjadi rgba32.
+
+![img](img/sprite_good_setting.png)
+
+Setelah itu klik apply.
+
+5. Tekan sprite editor dalam inspector untuk memotong sprite tersebut. Maka akan keluar window seperti berikut
+
+![img](img/sprite_editor.png)
+
+Setelah itu, tekan slice dan ubah type ke ```Grid By Cell Size``` dan ubah x dan y menjadi 32. Lalu tekan slice.
+
+![img](img/sprite_editor_2.png)
+
+6. Lakukan hal tersebut pada sprite yang lainnya.
+
+7. Buat empty game object dan beri nama Player. Lalu buat 1 empty game object sebagai child object player dan beri nama "Graphic". Lalu buat 2 empty game object sebagai child object Graphic dan beri nama masing-masing "upper body" dan "lower body".
+
+![img](img/player_hierarchy.png)
+
+8. Beri Sprite Renderer pada upper body dan lower body. Pada upper body, beri sprite ```player_0``` sedangkan pada lower body, beri sprite ```player_leg_0```.
+
+![img](img/upper_body_sprite_renderer.png)
+
+![img](img/lower_body_sprite_renderer.png)
+
+Dalam scene akan terlihat seperti ini
+
+![img](img/player_scene.png)
+
+9. Dalam object Player tambahkan 2 component, yaitu Rigidbody2D dan BoxCollider2D.
+
+![img](img/player_inspector.png)
+
+10. Edit box collider dengan menekan tombol ```edit collider``` pada inspector.
+
+![img](img/edit_collider.png)
+
+Lalu adjust box dalam player agar sesuai dengan graphic player.
+
+![img](img/edited_collider_box.png)
+
+11. Untuk ground, sementara kita dapat menggunakan sprite box. Kita akan belajar tile map di pelajaran selanjutnya. Unity menyediakan primitive sprite. Primitive sprite yang disediakan unity ada 6, yaitu Square, Triangle, Diamon, Hexagon, Circle, dan Polygon.
+
+![img](img/primitive_sprite.png)
+
+Buatlah sprite square, dan beri nama "Square".
+
+12. Salah satu cara untuk membuat game object dengan sprite renderer, adalah dengan langsung men-drag and drop sprite ke scene view. Drag and drop sprite square langsung ke scene view, maka akan terbuat game object bernama square dengan gambar square.
+
+![img](img/square_scene_view.png)
+
+13. Ini akan menjadi ground sementara kita. Adjust besar ground tersebut agar pemain bisa bergerak bebas. Lalu tambahkan BoxCollider2D agar pemain kita tidak tembus ke tanah.
+
+![img](img/ground_added.png)
+
+14. Sekarang gamenya sudah bisa kita play, dan player akan collide dengan ground. Selanjutnya, kita akan buat agar player bisa bergerak dengan input keyboard.
