@@ -19,6 +19,8 @@ https://docs.unity3d.com/Manual/class-Rigidbody2D.html
 
 ## Membuat platform Game
 
+### Meng-import sprites
+
 1. Download folder sprites dalam github ini.
 ![img](sprites/player.png)
 ![img](sprites/player_leg.png)
@@ -55,11 +57,13 @@ Setelah itu, tekan slice dan ubah type ke ```Grid By Cell Size``` dan ubah x dan
 
 6. Lakukan hal tersebut pada sprite yang lainnya.
 
-7. Buat empty game object dan beri nama Player. Lalu buat 1 empty game object sebagai child object player dan beri nama "Graphic". Lalu buat 2 empty game object sebagai child object Graphic dan beri nama masing-masing "upper body" dan "lower body".
+### Menggunakan Rigidbody2D dan Collider2D
+
+1. Buat empty game object dan beri nama Player. Lalu buat 1 empty game object sebagai child object player dan beri nama "Graphic". Lalu buat 2 empty game object sebagai child object Graphic dan beri nama masing-masing "upper body" dan "lower body".
 
 ![img](img/player_hierarchy.png)
 
-8. Beri Sprite Renderer pada upper body dan lower body. Pada upper body, beri sprite ```player_0``` sedangkan pada lower body, beri sprite ```player_leg_0```.
+2. Beri Sprite Renderer pada upper body dan lower body. Pada upper body, beri sprite ```player_0``` sedangkan pada lower body, beri sprite ```player_leg_0```.
 
 ![img](img/upper_body_sprite_renderer.png)
 
@@ -69,11 +73,11 @@ Dalam scene akan terlihat seperti ini
 
 ![img](img/player_scene.png)
 
-9. Dalam object Player tambahkan 2 component, yaitu Rigidbody2D dan BoxCollider2D.
+3. Dalam object Player tambahkan 2 component, yaitu Rigidbody2D dan BoxCollider2D.
 
 ![img](img/player_inspector.png)
 
-10. Edit box collider dengan menekan tombol ```edit collider``` pada inspector.
+4. Edit box collider dengan menekan tombol ```edit collider``` pada inspector.
 
 ![img](img/edit_collider.png)
 
@@ -81,18 +85,26 @@ Lalu adjust box dalam player agar sesuai dengan graphic player.
 
 ![img](img/edited_collider_box.png)
 
-11. Untuk ground, sementara kita dapat menggunakan sprite box. Kita akan belajar tile map di pelajaran selanjutnya. Unity menyediakan primitive sprite. Primitive sprite yang disediakan unity ada 6, yaitu Square, Triangle, Diamon, Hexagon, Circle, dan Polygon.
+5. Untuk ground, sementara kita dapat menggunakan sprite box. Kita akan belajar tile map di pelajaran selanjutnya. Unity menyediakan primitive sprite. Primitive sprite yang disediakan unity ada 6, yaitu Square, Triangle, Diamon, Hexagon, Circle, dan Polygon.
 
 ![img](img/primitive_sprite.png)
 
 Buatlah sprite square, dan beri nama "Square".
 
-12. Salah satu cara untuk membuat game object dengan sprite renderer, adalah dengan langsung men-drag and drop sprite ke scene view. Drag and drop sprite square langsung ke scene view, maka akan terbuat game object bernama square dengan gambar square.
+6. Salah satu cara untuk membuat game object dengan sprite renderer, adalah dengan langsung men-drag and drop sprite ke scene view. Drag and drop sprite square langsung ke scene view, maka akan terbuat game object bernama square dengan gambar square.
 
 ![img](img/square_scene_view.png)
 
-13. Ini akan menjadi ground sementara kita. Adjust besar ground tersebut agar pemain bisa bergerak bebas. Lalu tambahkan BoxCollider2D agar pemain kita tidak tembus ke tanah.
+7. Ini akan menjadi ground sementara kita. Adjust besar ground tersebut agar pemain bisa bergerak bebas. Lalu tambahkan BoxCollider2D agar pemain kita tidak tembus ke tanah.
 
 ![img](img/ground_added.png)
 
-14. Sekarang gamenya sudah bisa kita play, dan player akan collide dengan ground. Selanjutnya, kita akan buat agar player bisa bergerak dengan input keyboard.
+8. Sekarang gamenya sudah bisa kita play, dan player akan collide dengan ground.
+
+### Membuat kontrol platformer
+
+1. Selanjutnya, kita akan buat agar player bisa bergerak dengan input keyboard. Buatlah script bernama, PlayerMovement.cs dan isi dengan kode berikut.
+
+```
+
+```
