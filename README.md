@@ -141,11 +141,11 @@ public class PlayerMovement : MonoBehaviour {
 
 Dalam script tersebut kita membuat 3 variabel. Pertama adalah variabel rb2d yang digunakan untuk menyimpan component Rigidbody. Variabel kedua adalah dir yaitu arah player bergerak sekarang. Yang terakhir adalah kecepatan player. Disini adalah kecepatan player bergerak.
 
-Method start akan dijalankan pertama kali, dalam method start kita akan mengambil component Rigidbody2D dalam object Player (Karena script PlayerMovement.cs terpasang di object Player).
+Method Start akan dijalankan pertama kali, dalam method start kita akan mengambil component Rigidbody2D dalam object Player (Karena script PlayerMovement.cs terpasang di object Player).
 
-Method update akan dijalankan setiap frame dalam game. Ini bagus untuk melakukan input handling. Melakukan perubahan object dengan method update sangat tidak dianjurkan, karena fungsi update tidak akan menentu terpanggil kapan. Disini kita menggunakannya untuk menyimpan arah gerak player menggunakan Input.GetAxis;
+Method Update akan dijalankan setiap frame dalam game. Ini bagus untuk melakukan input handling. Melakukan perubahan object dengan method update sangat tidak dianjurkan, karena fungsi update tidak akan menentu terpanggil kapan. Disini kita menggunakannya untuk menyimpan arah gerak player menggunakan Input.GetAxis;
 
-Method fixed update akan dijalankan secara konstan. Yang dapat disetting di Project Settings (secara default setiap 0.2s). Method fixed update sangatlah tepat untuk melakukan perubahan yang berhubungan dengan simulasi physics. Seperti pergerakan atau perubahan velocity. Disini kita menggunakan variabel dir tadi untuk melakukan perubahan kecepatan player.
+Method FixedUpdate akan dijalankan secara konstan. Yang dapat disetting di Project Settings (secara default setiap 0.2s). Method fixed update sangatlah tepat untuk melakukan perubahan yang berhubungan dengan simulasi physics. Seperti pergerakan atau perubahan velocity. Disini kita menggunakan variabel dir tadi untuk melakukan perubahan kecepatan player.
 
 2. Masukkan script PlayerMovement.cs ke dalam object Player. Dengan Add Component > PlayerMovement
 
@@ -167,7 +167,7 @@ public class PlayerMovement : MonoBehaviour {
     private Rigidbody2D rb2d;
     private float dir;
     [SerializeField] private float speed = 5;
-    [SerializeField] private float jumpForce = 10;
+    [SerializeField] private float jumpForce = 10;//berubah
 
     void Start(){
         rb2d = GetComponent<Rigidbody2D>();
@@ -176,27 +176,90 @@ public class PlayerMovement : MonoBehaviour {
     void Update(){
         float horizontalInput = Input.GetAxis("Horizontal");
         dir = horizontalInput;
-        if(Input.GetButtonDown("Jump")){
-            Jump();
-        }
+        if(Input.GetButtonDown("Jump")){ //berubah
+            Jump(); //berubah
+        }//berubah
     }
 
     private void FixedUpdate(){
         rb2d.velocity = new Vector2(dir * speed, rb2d.velocity.y);
     }
 
-    private void Jump(){
-        rb2d.velocity = new Vector2(rb2d.velocity, jumpForce);
-    }
+    private void Jump(){//berubah
+        rb2d.velocity = new Vector2(rb2d.velocity, jumpForce);//berubah
+    }//berubah
 
 }
 ```
 
 Terdapat 1 variabel baru, yaitu jumpForce. Ini merupakan kecepatan awal player saat lompat.
 
-Terdapat juga 1 method baru, yaitu jump. Method jump melakukan perilaku jump pada player.
+Terdapat juga 1 method baru, yaitu Jump. Method Jump melakukan perilaku jump pada player.
 
-Perubahan yang terakhir adalah dalam fungsi update kita menambahkan permisalan jika tombol jump ditekan maka method jump akan dipanggil. Dengan ini jump akan terpanggil saat player menekan tombol jump.
+Perubahan yang terakhir adalah dalam fungsi Update kita menambahkan permisalan jika tombol jump ditekan maka method Jump akan dipanggil. Dengan ini Jump akan terpanggil saat player menekan tombol jump.
+
+4. Akan tetapi jika kita menekan spasi di udara, player akan terus melompat tanpa harus menyentuh tanah. Kita akan menyelesaikan ini dengan menggunakan teknik bernama raycast.
+
+Sebelum kita merubah script, kita harus menambahkan layer ground pada projectnya. Untuk itu kita harus membuka project settings.
+
+![img](img/adding_new_layers.png)
+
+Lalu assign object square ke layer ground.
+
+![img](img/setting_ground_layer.png)
+
+Ubah script PlayerMovement.cs menjadi
+
+```
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerMovement : MonoBehaviour {
+
+	private Rigidbody2D rb2d;
+	private float dir;
+	[SerializeField] private float speed = 5;
+	[SerializeField] private float jumpForce = 10;
+	[SerializeField] private LayerMask groundMask;//berubah
+	private bool isTouchingGround = false;//berubah
+
+	void Start() {
+		rb2d = GetComponent<Rigidbody2D>();
+	}
+
+	void Update() {
+		float horizontalInput = Input.GetAxis("Horizontal");
+		dir = horizontalInput;
+		if (Input.GetButtonDown("Jump") && isTouchingGround) {//berubah
+			Jump();
+		}
+	}
+
+	private void FixedUpdate() {
+		rb2d.velocity = new Vector2(dir * speed, rb2d.velocity.y);
+		isTouchingGround = Physics2D.Raycast(transform.position, Vector2.down, 1f, groundMask);//berubah
+	}
+
+	private void Jump() {
+		rb2d.velocity = new Vector2(rb2d.velocity.x, jumpForce);
+	}
+
+}
+```
+
+Disini kita membutuhkan variabel boolean yang menandakan player sedang menyentuh tanah. Lalu selanjutnya kita membutuh layer mask untuk layer ground.
+
+Dalam permisalan saat method Jump dipanggil ditambahkan kondisi isTouchingGround. Variabel ini akan diisi saat di method FixedUpdate.
+
+Dalam FixedUpdate, kita akan melakukan raycast kebawah untuk mengecek ground. Raycast akan melakukan cast ray dan mengembalikan nilai true jika cast mengenai sesuatu dan bernilai false jika tidak mengenai sesuatu.
+
+Assign layer Ground ke properti PlayerMovement.cs di object Player.
+
+![img](img/setting_layer_mask.png)
+
+
+Dengan ini player dapat bergerak kanan kiri dan bisa lompat saat berada diatas ground.
 
 ## References
 
