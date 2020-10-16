@@ -113,8 +113,90 @@ Buatlah sprite square, dan beri nama "Square".
 1. Selanjutnya, kita akan buat agar player bisa bergerak dengan input keyboard. Buatlah script bernama, PlayerMovement.cs dan isi dengan kode berikut.
 
 ```
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerMovement : MonoBehaviour {
+
+    private Rigidbody2D rb2d;
+    private float dir;
+    [SerializeField] private float speed = 5;
+
+    void Start(){
+        rb2d = GetComponent<Rigidbody2D>();
+    }
+
+    void Update(){
+        float horizontalInput = Input.GetAxis("Horizontal");
+        dir = horizontalInput;
+    }
+
+    private void FixedUpdate(){
+        rb2d.velocity = new Vector2(dir * speed, rb2d.velocity.y);
+    }
+
+}
+```
+
+Dalam script tersebut kita membuat 3 variabel. Pertama adalah variabel rb2d yang digunakan untuk menyimpan component Rigidbody. Variabel kedua adalah dir yaitu arah player bergerak sekarang. Yang terakhir adalah kecepatan player. Disini adalah kecepatan player bergerak.
+
+Method start akan dijalankan pertama kali, dalam method start kita akan mengambil component Rigidbody2D dalam object Player (Karena script PlayerMovement.cs terpasang di object Player).
+
+Method update akan dijalankan setiap frame dalam game. Ini bagus untuk melakukan input handling. Melakukan perubahan object dengan method update sangat tidak dianjurkan, karena fungsi update tidak akan menentu terpanggil kapan. Disini kita menggunakannya untuk menyimpan arah gerak player menggunakan Input.GetAxis;
+
+Method fixed update akan dijalankan secara konstan. Yang dapat disetting di Project Settings (secara default setiap 0.2s). Method fixed update sangatlah tepat untuk melakukan perubahan yang berhubungan dengan simulasi physics. Seperti pergerakan atau perubahan velocity. Disini kita menggunakan variabel dir tadi untuk melakukan perubahan kecepatan player.
+
+2. Masukkan script PlayerMovement.cs ke dalam object Player. Dengan Add Component > PlayerMovement
+
+![img](img/adding_script.png)
+
+Sekarang kalau kita play. Player sudah bisa bergerak kekiri dan kekanan.
+
+3. Selanjutnya kita akan buat player bisa lompat.
+
+Dalam script PlayerMovement.cs tambahkan kode berikut
 
 ```
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerMovement : MonoBehaviour {
+
+    private Rigidbody2D rb2d;
+    private float dir;
+    [SerializeField] private float speed = 5;
+    [SerializeField] private float jumpForce = 10;
+
+    void Start(){
+        rb2d = GetComponent<Rigidbody2D>();
+    }
+
+    void Update(){
+        float horizontalInput = Input.GetAxis("Horizontal");
+        dir = horizontalInput;
+        if(Input.GetButtonDown("Jump")){
+            Jump();
+        }
+    }
+
+    private void FixedUpdate(){
+        rb2d.velocity = new Vector2(dir * speed, rb2d.velocity.y);
+    }
+
+    private void Jump(){
+        rb2d.velocity = new Vector2(rb2d.velocity, jumpForce);
+    }
+
+}
+```
+
+Terdapat 1 variabel baru, yaitu jumpForce. Ini merupakan kecepatan awal player saat lompat.
+
+Terdapat juga 1 method baru, yaitu jump. Method jump melakukan perilaku jump pada player.
+
+Perubahan yang terakhir adalah dalam fungsi update kita menambahkan permisalan jika tombol jump ditekan maka method jump akan dipanggil. Dengan ini jump akan terpanggil saat player menekan tombol jump.
 
 ## References
 
