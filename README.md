@@ -7,16 +7,6 @@ Modul 3 Komunitas Game Dev TC 2020
 3. Peserta dapat menggunakan physics engine dalam unity
 4. Peserta dapat membuat kontrol platformer sederhana
 
-## Sprite Renderer dan Sprite
-https://docs.unity3d.com/Manual/Sprites.html
-https://docs.unity3d.com/Manual/class-SpriteRenderer.html
-
-## Collider2D
-https://docs.unity3d.com/Manual/Collider2D.html
-
-## Rigidbody2D
-https://docs.unity3d.com/Manual/class-Rigidbody2D.html
-
 ## Membuat platform Game
 
 ### Meng-import sprites
@@ -65,6 +55,8 @@ Setelah itu, tekan slice dan ubah type ke ```Grid By Cell Size``` dan ubah x dan
 
 2. Beri Sprite Renderer pada upper body dan lower body. Pada upper body, beri sprite ```player_0``` sedangkan pada lower body, beri sprite ```player_leg_0```.
 
+Attribut sprite adalah apa yang akan ditampilkan oleh sprite renderer. Dalam sprite renderer terdapat attribut lainnya seperti color. Color berfungsi untuk memberikan efek tint pada sprite.
+
 ![img](img/upper_body_sprite_renderer.png)
 
 ![img](img/lower_body_sprite_renderer.png)
@@ -74,6 +66,21 @@ Dalam scene akan terlihat seperti ini
 ![img](img/player_scene.png)
 
 3. Dalam object Player tambahkan 2 component, yaitu Rigidbody2D dan BoxCollider2D.
+
+Rigidbody2D digunakan untuk membuat object tersebut disimulasikan dalam physics engine unity. Dalam attributnya kita bisa memberikan body type.
+Body type dalam Physics engine 2D ada 3, yaitu static, kinematic, dan dynamic.
+- static berarti object akan dianggap sebagai benda yang tidak bergerak sama sekali.
+- kinematic berarti object tersebut tidak akan digerakkan oleh physics engine unity, namun bisa digerakkan melalui script.
+- dynamic berarti object akan digerakkan secara penuh oleh physics engine unity. Meskipun begitu, kita tetap dapat mengatur properti seperti kecepatan ataupun langsung mengubah posisi tersebut.
+
+BoxCollider2D adalah salah satu collider primitive yang disediakan oleh unity. Collider adalah cara game mendeteksi pertabrakan benda. BoxCollider2D menandakan bahwa area dalam box itu adalah solid ke Rigidbody2D. Unity mempunyai collider lainnya, seperti :
+- BoxCollider2D
+- CircleCollider2D
+- PolygonCollider2D
+- CompositeCollider2D
+- CapsuleCollider2D
+- CircleCollider2D
+- TilemapCollider2D
 
 ![img](img/player_inspector.png)
 
@@ -108,3 +115,10 @@ Buatlah sprite square, dan beri nama "Square".
 ```
 
 ```
+
+## References
+
+https://docs.unity3d.com/Manual/Sprites.html
+https://docs.unity3d.com/Manual/class-SpriteRenderer.html
+https://docs.unity3d.com/Manual/Collider2D.html
+https://docs.unity3d.com/Manual/class-Rigidbody2D.html
